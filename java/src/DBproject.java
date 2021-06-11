@@ -317,6 +317,21 @@ public class DBproject{
 		return res_int;
 	}
 
+	public static int test_add_appnt_id(DBproject esql, int id) {
+		String query_exist = "Select * FROM Appointment WHERE appnt_ID = ";
+		query_exist += String.valueOf(id);
+		int res_int = id;
+		try {
+			List<List<String>> res = esql.executeQueryAndReturnResult(query_exist);
+			List<List<String>> res1 = esql.executeQueryAndReturnResult("SELECT MAX(appnt_ID) FROM appointment");
+			if(res.size() > 0)
+				res_int = Integer.parseInt(res1.get(0).get(0)) + 1;
+		} catch(Exception e) {
+			System.out.print(e);
+		}
+		return res_int;
+	}
+
 	public static void AddDoctor(DBproject esql) {//1
 		//doctor ID, name, hid
 		Scanner sc = new Scanner(System.in);
@@ -422,13 +437,17 @@ public class DBproject{
 					System.out.println("That's not a number!");
 					sc.next(); 
 				}
-				appnt_id = sc.nextInt();
+				int temp_appnt_id = sc.nextInt();
+				appnt_id = test_add_appnt_id(esql, temp_appnt_id);
+				if(appnt_id != temp_appnt_id){
+					System.out.print("Your input appointment ID is already in use, the next available id (" + String.valueOf(appnt_id) +") is assigned to you.\n");
+				}
 			} while (appnt_id <= 0);	
 
 			//get adate
 			do {
 				try {
-					System.out.print("Input Your Appointment's date in (MM/DD/YYYY) format:");
+					System.out.print("Input Your Appointment's date in (MM-DD-YYYY) format:");
 					temp_date_input = in.readLine();
 					System.out.print(temp_date_input);
 					SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
