@@ -89,8 +89,9 @@ public class DBproject{
 		Statement stmt = this._connection.createStatement ();
 
 		//issues the query instruction
+		
 		ResultSet rs = stmt.executeQuery (query);
-
+		System.out.print("After executing the qeuery");
 		/*
 		 *  obtains the metadata object for the returned result set.  The metadata
 		 *  contains row and column info.
@@ -98,7 +99,7 @@ public class DBproject{
 		ResultSetMetaData rsmd = rs.getMetaData ();
 		int numCol = rsmd.getColumnCount ();
 		int rowCount = 0;
-		
+		System.out.print("Before printing");
 		//iterates through the result set and output them to standard out.
 		boolean outputHeader = true;
 		while (rs.next()){
