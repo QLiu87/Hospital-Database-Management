@@ -657,7 +657,7 @@ public class DBproject{
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error in gsorting function.");
+			System.out.println("Error in sorting function.");
 			System.out.println(e);
 		}
     	return sortedMap;
@@ -696,8 +696,8 @@ public class DBproject{
 		try {
 			for(int i = 0; i < status_list.size(); i++){
 				res = count_status(esql, status_list.get(i));
-				System.out.println("size of res =: " + res.size());
-				System.out.println("After count_status function for " + status_list.get(i));
+				//System.out.println("size of res =: " + res.size());
+				//System.out.println("After count_status function for " + status_list.get(i));
 				for (int j = 0; j < res.size(); j++) { 
 					//doc_status_list. get(each doc id)
 					//then set(each doc id)'s status count 
@@ -712,6 +712,7 @@ public class DBproject{
 			System.out.println("Error in getting status count.");
 			System.out.println(e);
 		}
+
 		System.out.println("Starting bag of doctors");
 		ArrayList<HashMap<String, Integer>> bag_of_docs = new ArrayList<HashMap<String, Integer>>();
 		try {
@@ -729,9 +730,10 @@ public class DBproject{
 			System.out.println(e);
 		}
 		System.out.println("Starting sorting");
+
+		System.out.println("bag_of_docs.size() = " + bag_of_docs.size());
 		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
 		try {
-			
 			for (HashMap<String,Integer> stats : bag_of_docs) {
 				LinkedHashMap<String, Integer> sorted_status = new LinkedHashMap<String, Integer>();
 				sorted_status = sortHashMapByValues(stats);
