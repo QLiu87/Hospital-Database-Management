@@ -602,6 +602,7 @@ public class DBproject{
 			}
 		} catch (Exception e) {
 			System.out.println("Your query is incorrect, Please try again!");
+			System.out.println(e);
 		}	
 	}
 
