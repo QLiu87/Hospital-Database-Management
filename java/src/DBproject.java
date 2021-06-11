@@ -218,7 +218,12 @@ public class DBproject{
 	 * @param args the command line arguments this inclues the <mysql|pgsql> <login file>
 	 */
 	public static void main (String[] args) {
-		System.setOut(new PrintStream(new FileOutputStream("home.txt")));
+		try {
+			System.setOut(new PrintStream(new FileOutputStream("home.txt")));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		if (args.length != 3) {
 			System.err.println (
 				"Usage: " + "java [-classpath <classpath>] " + DBproject.class.getName () +
