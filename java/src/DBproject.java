@@ -733,7 +733,7 @@ public class DBproject{
 		System.out.println("bag_of_docs.size() = " + bag_of_docs.size());
 		
 		for(int i = 0; i < 10; i++){
-			System.out.print("bag_of_docs[" + i + "] = ");
+			System.out.println("bag_of_docs[" + i + "] = " + doctor_id_to_name.get(String.valueOf(i)));
 			bag_of_docs.get(i).entrySet().forEach(entry -> {
 				System.out.println(entry.getKey() + " " + entry.getValue());
 			});
