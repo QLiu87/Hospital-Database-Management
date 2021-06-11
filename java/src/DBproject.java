@@ -366,7 +366,7 @@ public class DBproject{
 		} while (did <= 0);
 		
 		try {
-			query += "VALUES ('" + doc_id + ", '" + doc_name + "', '" + specialty + "', " + did + "');";
+			query += "VALUES ('" + doc_id + "'', '" + doc_name + "', '" + specialty + "', '" + did + "');";
 			System.out.print(query);
 			try {
 				System.in.read();
