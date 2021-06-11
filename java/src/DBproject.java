@@ -681,7 +681,7 @@ public class DBproject{
 		}
 
 		List<List<String>> doc_status_list = new ArrayList<List<String>>(); 
-		for (int i = 0; i <= num_doc; i++) {
+		for (int i = 0; i < num_doc; i++) {
 			//initialization
 			List<String> index = new ArrayList<String>();
 			//initialize the counter for each status
@@ -698,10 +698,15 @@ public class DBproject{
 					//doc_status_list. get(each doc id)
 					//then set(each doc id)'s status count 
 					int curr_doc_id = Integer.parseInt(res.get(j).get(0));
+					System.out.println("After 701");
 					String curr_doc_name = res.get(j).get(1);
+					System.out.println("After 703");
 					String curr_doc_status_count = res.get(j).get(2);
+					System.out.println("After 705");
 					doctor_id_to_name.put(res.get(j).get(0), curr_doc_name);
+					System.out.println("After 706");
 					doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);
+					System.out.println("After 708");
 				}
 			}
 		} catch (Exception e) {
