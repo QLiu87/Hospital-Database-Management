@@ -30,8 +30,6 @@ import java.util.Date;
 import java.util.Calendar;
 
 
-
-
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -370,6 +368,7 @@ public class DBproject{
 		
 		try {
 			query += "VALUES ('" + doc_id + ", '" + doc_name + "', '" + specialty + "', " + did + "');";
+			System.out.print(query);
             esql.executeUpdate(query);
 		} catch (Exception e) {
 			System.out.println("Error adding a doctor!");
