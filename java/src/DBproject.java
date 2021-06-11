@@ -742,10 +742,11 @@ public class DBproject{
 		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
 		try {
 			int counter = 0;
-			counter++;
+			
 			for (HashMap<String,Integer> stats : bag_of_docs) {
 				LinkedHashMap<String, Integer> sorted_status = new LinkedHashMap<String, Integer>();
 				System.out.println("Before sorting function with counter = " + counter);
+				counter++;
 				sorted_status = sortHashMapByValues(stats);
 				doctor.add(sorted_status);
 				System.out.println("After");
