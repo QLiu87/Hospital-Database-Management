@@ -334,13 +334,13 @@ public class DBproject{
 			int temp_doc_id = sc.nextInt();
 			doc_id = test_add_doc_id(esql, temp_doc_id);
 			if(doc_id != temp_doc_id){
-				System.out.print("Your input doctor is already in use, the next available id (" + String.valueOf(doc_id) +") is assigned to you.");
+				System.out.print("Your input doctor is already in use, the next available id (" + String.valueOf(doc_id) +") is assigned to you.\n");
 			}
 		} while (doc_id <= 0);
 		
 		do {
-			System.out.print("Input Doctor's Name:");
 			try {
+				System.out.print("Input Doctor's Name:");
 				doc_name = in.readLine();
 			} catch (Exception e) {
 				System.out.print("Your Input for doctor's Name is incorrect!");
@@ -366,7 +366,7 @@ public class DBproject{
 		} while (did <= 0);
 		
 		try {
-			query += "VALUES ('" + doc_id + "'', '" + doc_name + "', '" + specialty + "', '" + did + "');";
+			query += "VALUES ('" + String.valueOf(doc_id) + "'', '" + doc_name + "', '" + specialty + "', '" + String.valueOf(did) + "');";
 			System.out.print(query);
 			try {
 				System.in.read();
@@ -374,9 +374,27 @@ public class DBproject{
 				System.out.print("error at the pause");
 			}
             esql.executeUpdate(query);
+			String query2 = "select * from Doctor where doctor_ID = " + String.valueOf(doc_id);
+			int rowcount = esql.executeQueryAndPrintResult(query2);
+			System.out.println(rowcount);
+			try {
+				System.in.read();
+			} catch (Exception e) {
+				System.out.print("error at the pause");
+				try {
+					System.in.read();
+				} catch (Exception e) {
+					System.out.print("error at the pause");
+				}
+			}
 		} catch (Exception e) {
 			System.out.println("Error adding a doctor!");
 			System.err.println (e.getMessage());
+			try {
+				System.in.read();
+			} catch (Exception e) {
+				System.out.print("error at the pause");
+			}
 		}
 		System.out.print("New doctor added!");
 		sc.close();
