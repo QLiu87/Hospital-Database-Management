@@ -445,7 +445,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						adate = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) ;
+						adate = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '-' +  temp_date_input.substring(3,5) ;
 						date_check = true;
 
 						continue;
@@ -559,7 +559,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						start_date = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) ;
+						start_date = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '-' +  temp_date_input.substring(3,5) ;
 						date_check1 = true;
 						continue;
 					}  //added my method
@@ -580,7 +580,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						end_date = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) ;
+						end_date = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '-' +  temp_date_input.substring(3,5) ;
 						date_check2 = true;
 						continue;
 					}  //added my method
