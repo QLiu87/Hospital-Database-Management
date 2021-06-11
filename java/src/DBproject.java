@@ -756,18 +756,14 @@ public class DBproject{
 			System.out.println(e);
 		}
 		System.out.println("Before final output");
-		System.out.printf("%s-10%s-20%\n", "Doctor ID", "Doctor Name");
+		//System.out.printf("%s-10%s-20\n", "Doctor ID", "Doctor Name");
 		try {
 			for (int i = 0; i <= num_doc; i++) { // Print all values in our format
 				System.out.printf("%s-10%s-20", i, doctor_id_to_name.get(String.valueOf(i)));
 				for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
-	  
 					String key = mapElement.getKey();
-		  
-					// Finding the value
+
 					int value = mapElement.getValue();
-		  
-					// print the key : value pair
 					System.out.printf("%s:-1%s-5",key, value);
 				}
 			}
