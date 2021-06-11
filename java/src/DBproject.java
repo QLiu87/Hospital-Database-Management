@@ -381,11 +381,6 @@ public class DBproject{
 				System.in.read();
 			} catch (Exception e) {
 				System.out.print("error at the pause");
-				try {
-					System.in.read();
-				} catch (Exception ee) {
-					System.out.print("error at the pause");
-				}
 			}
 		} catch (Exception e) {
 			System.out.println("Error adding a doctor!");
@@ -397,12 +392,8 @@ public class DBproject{
 			}
 		}
 		System.out.print("New doctor added!");
-		sc.close();
-		try {
-			System.in.read();
-		} catch (Exception e) {
-			System.out.print("error at the pause");
-		}
+		//sc.close();
+
 		
 		return;
 	}
