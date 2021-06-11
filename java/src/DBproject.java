@@ -592,7 +592,7 @@ public class DBproject{
 				}
 			} while (date_check2 == false || end_date.length() <= 0);
 
-			String query = "SELECT appnt_ID FROM Appointment JOIN has_appointment ";
+			String query = "SELECT appnt_ID AS Appointment_ID, adate, time_slot, status FROM Appointment JOIN has_appointment ";
 			query +=       "ON Appointment.appnt_ID = has_appointment.appt_id WHERE (Appointment.adate >= '" + start_date + "' AND Appointment.adate <= '" + end_date + "')";
 			query +=  " AND (Appointment.status = 'AC' OR Appointment.status = 'AV') AND has_appointment.doctor_id = " + doc_id;
 			//System.out.println(query);
