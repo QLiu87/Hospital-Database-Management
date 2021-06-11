@@ -23,11 +23,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 //scanner, date
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Iterator;
 
 /*
  * This class defines a simple embedded SQL utility class that is designed to
@@ -614,18 +619,131 @@ public class DBproject{
 		// For a department name and a specific date, find the list of available appointments of the department
 	}
 
+	public static List<List<String>> count_status(DBproject esql, String status){
+		List<List<String>> res = new ArrayList<List<String>>();
+		try { 
+			String query = "SELECT D.doctor_ID, D.name, COUNT(A.appnt_ID)FROM Doctor D, Appointment A, has_appointment H";
+			query +=      " WHERE D.doctor_ID = H.doctor_ID AND H.appt_ID = A.appnt_ID AND A.status = '" + status + "' GROUP BY D.doctor_ID ORDER BY D.doctor_ID ASC;";
+			res = esql.executeQueryAndReturnResult(query);
+		} catch (Exception e) {
+			System.out.println("Query error in " + status + " query.");
+		}
+		return res;
+	}
+
+	//reference: https://stackoverflow.com/questions/8119366/sorting-hashmap-by-values by Sandeep Pathak
+	public static LinkedHashMap<String, Integer> sortHashMapByValues(HashMap<String, Integer> passedMap) {
+		List<String> mapKeys = new ArrayList<>(passedMap.keySet());
+		List<Integer> mapValues = new ArrayList<>(passedMap.values());
+		Collections.sort(mapValues);
+		Collections.sort(mapKeys);
+
+		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
+
+		Iterator<Integer> valueIt = mapValues.iterator();
+		while (valueIt.hasNext()) {
+			int val = valueIt.next();
+			Iterator<String> keyIt = mapKeys.iterator();
+		
+			while (keyIt.hasNext()) {
+				String key = keyIt.next();
+				int comp1 = passedMap.get(key);
+				int comp2 = val;
+			
+				if (comp1 == comp2) {
+					mapKeys.remove(key);
+					sortedMap.put(key, val);
+					break;
+				}
+			}
+		}
+    	return sortedMap;
+	}
+
 	public static void ListStatusNumberOfAppointmentsPerDoctor(DBproject esql) {//7
 		// Count number of different types of appointments per doctors and list them in descending order
-		/*try {
-			List<List<String>> doc_records = esql.executeQueryAndReturnResult("Select D.name, D.doc_id FROM Doctor D");
-			for(List<String> doc : doc_records){
-				String doc_id = doc.get(1);
+		List<List<String>> res = new ArrayList<List<String>>();
+		int num_doc = 0;
+		HashMap<String, String> doctor_id_to_name = new HashMap<String, String>();
+		List<String> status_list= new ArrayList<String>();
+		status_list.add("PA");
+		status_list.add("AC");
+		status_list.add("AV");
+		status_list.add("WL");
 
-			}
+		try { 
+			String num_doc_query = "SELECT COUNT(D.doctor_ID) FROM Doctor D;";
+			res = esql.executeQueryAndReturnResult(num_doc_query);
+			num_doc = Integer.parseInt(res.get(0).get(0));
 		} catch (Exception e) {
-			System.out.print("Error happened in option 7");
+			System.out.println("Error in finding total number of doctors.");
 		}
-		*/
+
+		List<List<String>> doc_status_list = new ArrayList<List<String>>(); 
+		for (int i = 0; i <= num_doc; i++) {
+			//initialization
+			List<String> index = new ArrayList<String>();
+			//initialize the counter for each status
+			for (int j = 0; j < 4; j++) {
+				index.add("0");
+			}
+			doc_status_list.add(index);
+		}
+		for(int i = 0; i < status_list.size(); i++){
+			res = count_status(esql, status_list.get(i));
+			for (int j = 0; j < res.size(); i++) { 
+				//doc_status_list. get(each doc id)
+				//then set(each doc id)'s status count 
+				int curr_doc_id = Integer.parseInt(res.get(j).get(0));
+				String curr_doc_name = res.get(j).get(1);
+				String curr_doc_status_count = res.get(j).get(2);
+				doctor_id_to_name.put(res.get(j).get(0), curr_doc_name);
+				doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);
+			}
+		}
+		//every index of level 0 list contains a list of doctor's status counts, each count is mapped to its name 
+		// List<List<HashMap<String, Integer>>> bag_of_docs = new ArrayList<List<HashMap<String, Integer>>>(); // Initialize container for status values
+		// for (int each_doc = 0; each_doc < res.size(); each_doc++) {
+		// 	ArrayList<HashMap<String, Integer>> doctor_status_count = new ArrayList<HashMap<String, Integer>>();
+		// 	for(int each_status = 0; each_status < 4; each_status++){
+		// 		HashMap<String, Integer> map=new HashMap<String, Integer>();
+		// 		//     map(status, its_count)
+		// 		map.put(status_list.get(each_status), Integer.parseInt(doc_status_list.get(each_doc).get(each_status)));
+		// 		doctor_status_count.add(map);
+		// 	}
+		// 	bag_of_docs.add(doctor_status_count);
+		// }
+		ArrayList<HashMap<String, Integer>> bag_of_docs = new ArrayList<HashMap<String, Integer>>();
+		for (int each_doc = 0; each_doc < res.size(); each_doc++) {
+			HashMap<String, Integer> map=new HashMap<String, Integer>();
+			for(int each_status = 0; each_status < 4; each_status++){
+				//     map(status, its_count)
+				map.put(status_list.get(each_status), Integer.parseInt(doc_status_list.get(each_doc).get(each_status)));
+			}
+			bag_of_docs.add(map);
+		}
+
+		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
+		for (HashMap<String,Integer> stats : bag_of_docs) {
+			LinkedHashMap<String, Integer> sorted_status = new LinkedHashMap<String, Integer>();
+			sorted_status = sortHashMapByValues(stats);
+			doctor.add(sorted_status);
+		}
+
+		System.out.printf("%s-10%s-20%\n", "Doctor ID", "Doctor Name");
+		for (int i = 0; i <= num_doc; i++) { // Print all values in our format
+			System.out.printf("%s-10%s-20", i, doctor_id_to_name.get(String.valueOf(i)));
+			for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
+  
+				String key = mapElement.getKey();
+	  
+				// Finding the value
+				int value = mapElement.getValue();
+	  
+				// print the key : value pair
+				System.out.printf("%s:-1%s-5",key, value);
+			}
+		}
 
 	}
 
