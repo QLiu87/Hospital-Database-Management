@@ -383,7 +383,7 @@ public class DBproject{
 				System.out.print("error at the pause");
 				try {
 					System.in.read();
-				} catch (Exception e) {
+				} catch (Exception ee) {
 					System.out.print("error at the pause");
 				}
 			}
@@ -392,7 +392,7 @@ public class DBproject{
 			System.err.println (e.getMessage());
 			try {
 				System.in.read();
-			} catch (Exception e) {
+			} catch (Exception ee) {
 				System.out.print("error at the pause");
 			}
 		}
