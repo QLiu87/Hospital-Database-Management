@@ -415,7 +415,7 @@ public class DBproject{
 		final String DATE_FORMAT = "MM-dd-yyyy";
 		String appnt_status = "";
 		String query = "";
-
+		boolean status_check = false;
 		try{
 			//get aid
 			query += "INSERT INTO Appointment VALUES (";
@@ -458,16 +458,16 @@ public class DBproject{
 			//get appointment time range
 			do {
 				try {
-					System.out.print("Input Your Appointment's start time in (HH:MM) format:");
+					System.out.println("Input Your Appointment's start time in (HH:MM) format:");
 				String start_time = in.readLine();
 				if(start_time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]") == false){
-					System.out.print("Your input for Appointment's start time is wrong, Please follow the given format:");
+					System.out.println("Your input for Appointment's start time is wrong, Please follow the given format:");
 					continue;
 				}
-				System.out.print("Input Your Appointment's end time in (HH:MM) format:");
+				System.out.println("Input Your Appointment's end time in (HH:MM) format:");
 				String end_time = in.readLine();
 				if(end_time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]") == false){
-					System.out.print("Your input for Appointment's end time is wrong, Please follow the given format:");
+					System.out.println("Your input for Appointment's end time is wrong, Please follow the given format:");
 					continue;
 				}
 				int h1 = Integer.parseInt(start_time.substring(0, 2));
@@ -481,12 +481,12 @@ public class DBproject{
 				if(h1 >= h2){
 					if(h1 == h2){
 						if(m1 >= m2){
-							System.out.print("In m1 > m2, Your input for Appointment's start time is later than the end time:");
+							System.out.println("Your input for Appointment's start time is later than the end time:");
 							continue;
 						}
 					}
 					else{
-						System.out.print("in h1 == h2, else Your input for Appointment's start time is later than the end time:");
+						System.out.println("Your input for Appointment's start time is later than the end time:");
 						continue;
 					}
 				}
@@ -501,15 +501,19 @@ public class DBproject{
 			do { // status
 				try {
 					System.out.print("Input Your Appointment's Status, Choose one from (PA, AC, AV, WL):");
-					appnt_status = in.readLine();
-					if(appnt_status == "PA" || appnt_status == "AC" || appnt_status == "AV" || appnt_status == "WL")
-						break;
+					appnt_status = in.readLine().toUpperCase();
+					System.out.println("Input status is: " + appnt_status);
+					if(appnt_status == "PA" || appnt_status == "AC" || appnt_status == "AV" || appnt_status == "WL"){
+						status_check = true;
+						continue;
+					}
+
 					System.out.print("Your input for Appointment's status is wrong, Please follow the given format:");
 				} catch (Exception e) {
 					System.out.println("Your input is invalid!");
 					continue;
 				} // end try
-			} while (appnt_status.length() <= 0);
+			} while (appnt_status.length() <= 0 || status_check == false);
 
 			query += appnt_id + ", \'" + adate + "\', \'" + appnt_time + "\', \'" + appnt_status + "\');";
 			esql.executeUpdate(query);
