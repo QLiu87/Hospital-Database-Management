@@ -381,7 +381,7 @@ public class DBproject{
 		} while (did <= 0);
 		
 		try {
-			query += "VALUES ('" + String.valueOf(doc_id) + "', '" + doc_name + "', '" + specialty + "', '" + String.valueOf(did) + "')";
+			query += "VALUES (" + String.valueOf(doc_id) + ", '" + doc_name + "', '" + specialty + "', " + String.valueOf(did) + ")";
             esql.executeUpdate(query);
 			String query2 = "select * from Doctor where doctor_ID = " + String.valueOf(doc_id);
 			int rowcount = esql.executeQueryAndPrintResult(query2);
@@ -444,8 +444,9 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						adate = temp_date_input;
+						adate = temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) + '/' +  temp_date_input.substring(6) ;
 						date_check = true;
+
 						continue;
 					}  //added my method
 					System.out.print("Your input for Appointment date is wrong, Please follow the given format:");
