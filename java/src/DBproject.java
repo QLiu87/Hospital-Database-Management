@@ -28,8 +28,8 @@ import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
-
-
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -218,6 +218,7 @@ public class DBproject{
 	 * @param args the command line arguments this inclues the <mysql|pgsql> <login file>
 	 */
 	public static void main (String[] args) {
+		System.setOut(new PrintStream(new FileOutputStream("home.txt")));
 		if (args.length != 3) {
 			System.err.println (
 				"Usage: " + "java [-classpath <classpath>] " + DBproject.class.getName () +
@@ -309,7 +310,7 @@ public class DBproject{
 		int res_int = id;
 		try {
 			List<List<String>> res = esql.executeQueryAndReturnResult(query_exist);
-			List<List<String>> res1 = esql.executeQueryAndReturnResult("SELECT MAX(doctor_ID) FROM Doctor)");
+			List<List<String>> res1 = esql.executeQueryAndReturnResult("SELECT MAX(doctor_ID) FROM Doctor");
 			if(res.size() > 0)
 				res_int = Integer.parseInt(res1.get(0).get(0)) + 1;
 		} catch(Exception e) {
