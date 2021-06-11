@@ -716,8 +716,7 @@ public class DBproject{
 		System.out.println("Starting bag of doctors");
 		ArrayList<HashMap<String, Integer>> bag_of_docs = new ArrayList<HashMap<String, Integer>>();
 		try {
-			
-			for (int each_doc = 0; each_doc < res.size(); each_doc++) {
+			for (int each_doc = 0; each_doc < doc_status_list.size(); each_doc++) {
 				HashMap<String, Integer> map=new HashMap<String, Integer>();
 				for(int each_status = 0; each_status < 4; each_status++){
 					//     map(status, its_count)
