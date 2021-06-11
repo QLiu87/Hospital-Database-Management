@@ -368,6 +368,11 @@ public class DBproject{
 		try {
 			query += "VALUES ('" + doc_id + ", '" + doc_name + "', '" + specialty + "', " + did + "');";
 			System.out.print(query);
+			try {
+				System.in.read();
+			} catch (Exception e) {
+				System.out.print("error at the pause");
+			}
             esql.executeUpdate(query);
 		} catch (Exception e) {
 			System.out.println("Error adding a doctor!");
