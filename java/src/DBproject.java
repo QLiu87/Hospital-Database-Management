@@ -416,8 +416,11 @@ public class DBproject{
 		String appnt_status = "";
 		String query = "";
 		boolean status_check = false;
+		
 		try{
 			//get aid
+			String test_query = "SELECT * FROM Appointment WHERE appnt_id = 3";
+			int rows = esql.executeQueryAndPrintResult(test_query);
 			query += "INSERT INTO Appointment VALUES (";
 			do {
 				System.out.print("Input Your Appointment's ID:");
@@ -513,7 +516,7 @@ public class DBproject{
 			} while (appnt_status.length() <= 0 || status_check == false);
 
 			query += appnt_id + ", \'" + adate + "\', \'" + appnt_time + "\', \'" + appnt_status + "\');";
-			System.out.println(query);
+			//System.out.println(query);
 			esql.executeUpdate(query);
 			System.out.println("New appointment added!\n");
 		} catch (Exception e) {
@@ -532,7 +535,7 @@ public class DBproject{
 	public static void ListAppointmentsOfDoctor(DBproject esql) {//5
 		// For a doctor ID and a date range, find the list of active and available appointments of the doctor
 		Scanner sc = new Scanner(System.in);
-		final String DATE_FORMAT = "dd-MM-yyyy";
+		final String DATE_FORMAT = "MM-dd-yyyy";
 		int doc_id;
 		boolean date_check1 = false;
 		boolean date_check2 = false;
@@ -550,7 +553,7 @@ public class DBproject{
 	
 			do {
 				try {
-					System.out.print("Input Your doctor's date 1 in (MM/DD/YYYY) format:");
+					System.out.print("Input Your doctor's date 1 in (MM-DD-YYYY) format:");
 					String temp_date_input = in.readLine();
 					SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 					df.setLenient(false);
@@ -558,7 +561,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						start_date = temp_date_input;
+						start_date = temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) + '/' +  temp_date_input.substring(6) ;
 						date_check1 = true;
 						continue;
 					}  //added my method
@@ -571,7 +574,7 @@ public class DBproject{
 	
 			do {
 				try {
-					System.out.print("Input Your doctor's date 2 in (MM/DD/YYYY) format:");
+					System.out.print("Input Your doctor's date 2 in (MM-DD-YYYY) format:");
 					String temp_date_input = in.readLine();
 					SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 					df.setLenient(false);
@@ -579,7 +582,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						end_date = temp_date_input;
+						end_date = temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) + '/' +  temp_date_input.substring(6) ;
 						date_check2 = true;
 						continue;
 					}  //added my method
@@ -589,6 +592,7 @@ public class DBproject{
 					System.out.print("Your input for Appointment date is wrong, Please follow the given format:");
 				}
 			} while (date_check2 == false || end_date.length() <= 0);
+
 			String query = "SELECT A.appnt_ID, A.status FROM Appointment A, has_appointment H";
 			query +=       "WHERE (A.status = 'AC' OR A.status = 'AV') AND H.doctor_ID = " + doc_id;
 			query +=  "AND A.appnt_ID = H.appnt_id AND (A.adate BETWEEN \'" + start_date + "\' AND \'" + end_date + "\');";
