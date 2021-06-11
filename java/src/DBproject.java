@@ -305,7 +305,7 @@ public class DBproject{
 		return input;
 	}//end readChoice
 	
-	public static int test_add_doc_id(int id) {
+	public static int test_add_doc_id(DBproject esql, int id) {
 		String query_exist = "Select * FROM Doctor WHERE Doctor.doctor_ID = ";
 		query_exist += String.valueOf(id);
 		int res_int = id;
@@ -313,7 +313,7 @@ public class DBproject{
 			List<List<String>> res = esql.executeQueryAndReturnResult(query_exist);
 			List<List<String>> res1 = esql.executeQueryAndReturnResult("SELECT MAX(doctor_ID) FROM Doctor)");
 			if(res.size() > 0)
-				res_int = res1.get(0).get(0) + 1;
+				res_int = Integer.parseInt(res1.get(0).get(0)) + 1;
 		} catch(Exception e) {
 			System.out.print(e);
 		}
@@ -335,10 +335,10 @@ public class DBproject{
 				sc.next(); 
 			}
 			int temp_doc_id = sc.nextInt();
-			doc_id = test_add_doc_id(temp_doc_id);
+			doc_id = test_add_doc_id(esql, temp_doc_id);
 			if(doc_id != temp_doc_id){
 				System.out.print("Your input doctor is already in use, the next available id (" + String.valueOf(doc_id) +") is assigned to you.");
-					
+			}
 		} while (doc_id <= 0);
 		
 		do {
