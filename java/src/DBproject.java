@@ -731,10 +731,14 @@ public class DBproject{
 		System.out.println("Starting sorting");
 
 		System.out.println("bag_of_docs.size() = " + bag_of_docs.size());
-		System.out.println("bag_of_docs[1] = ");
-		bag_of_docs.get(1).entrySet().forEach(entry -> {
-			System.out.println(entry.getKey() + " " + entry.getValue());
-		});
+		
+		for(int i = 0; i < 10; i++){
+			System.out.print("bag_of_docs[" + i + "] = ");
+			bag_of_docs.get(i).entrySet().forEach(entry -> {
+				System.out.println(entry.getKey() + " " + entry.getValue());
+			});
+		}
+		
 		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
 		try {
 			for (HashMap<String,Integer> stats : bag_of_docs) {
