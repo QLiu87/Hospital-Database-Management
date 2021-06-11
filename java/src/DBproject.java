@@ -447,7 +447,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						adate = temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) + '/' +  temp_date_input.substring(6) ;
+						adate = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) ;
 						date_check = true;
 
 						continue;
@@ -561,7 +561,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						start_date = temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) + '/' +  temp_date_input.substring(6) ;
+						start_date = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) ;
 						date_check1 = true;
 						continue;
 					}  //added my method
@@ -582,7 +582,7 @@ public class DBproject{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					if(temp_date_input.matches("^\\d+\\-\\d+\\-\\d+")){
-						end_date = temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) + '/' +  temp_date_input.substring(6) ;
+						end_date = temp_date_input.substring(6) + '-' +  temp_date_input.substring(0,2) + '/' +  temp_date_input.substring(3,5) ;
 						date_check2 = true;
 						continue;
 					}  //added my method
@@ -594,7 +594,7 @@ public class DBproject{
 			} while (date_check2 == false || end_date.length() <= 0);
 
 			String query = "SELECT A.appnt_ID, A.status FROM Appointment A, has_appointment H";
-			query +=       "WHERE (A.status = 'AC' OR A.status = 'AV') AND H.doctor_ID = " + doc_id;
+			query +=       "WHERE (A.status = 'AC' OR A.status = 'AV') AND H.doctor_id = " + doc_id;
 			query +=  "AND A.appnt_ID = H.appnt_id AND (A.adate BETWEEN \'" + start_date + "\' AND \'" + end_date + "\');";
 			int rows = esql.executeQueryAndPrintResult(query);
 			if(rows == 0) {
