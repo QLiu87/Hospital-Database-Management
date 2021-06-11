@@ -324,7 +324,7 @@ public class DBproject{
 		String doc_name = "";
 		String specialty = "";
 		int did;
-		String query = "INSERT INTO Doctor VALUES (doctor_ID, name, specialty, did )";
+		String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) ";
 		do {
 			System.out.print("Input Doctor's ID:");
 			while (!sc.hasNextInt()) {
@@ -366,7 +366,7 @@ public class DBproject{
 		} while (did <= 0);
 		
 		try {
-			query += "VALUES ('" + String.valueOf(doc_id) + "'', '" + doc_name + "', '" + specialty + "', '" + String.valueOf(did) + "');";
+			query += "VALUES ('" + String.valueOf(doc_id) + "', '" + doc_name + "', '" + specialty + "', '" + String.valueOf(did) + "')";
 			System.out.print(query);
 			try {
 				System.in.read();
