@@ -28,9 +28,8 @@ import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-/**
+
+/*
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
  *
@@ -218,12 +217,6 @@ public class DBproject{
 	 * @param args the command line arguments this inclues the <mysql|pgsql> <login file>
 	 */
 	public static void main (String[] args) {
-		try {
-			System.setOut(new PrintStream(new FileOutputStream("home.txt")));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
 		if (args.length != 3) {
 			System.err.println (
 				"Usage: " + "java [-classpath <classpath>] " + DBproject.class.getName () +
@@ -382,6 +375,7 @@ public class DBproject{
 		}
 		System.out.print("New doctor added!");
 		sc.close();
+		return;
 	}
 
 	public static void AddPatient(DBproject esql) {//2
