@@ -591,9 +591,9 @@ public class DBproject{
 				}
 			} while (date_check2 == false || end_date.length() <= 0);
 
-			String query = "SELECT A.appnt_ID, A.status FROM Appointment A JOIN has_appointment H ";
-			query +=       "ON A.appnt_ID = H.appnt_id AND (A.adate BETWEEN '" + start_date + "' AND '" + end_date + "')";
-			query +=  " AND (A.status = 'AC' OR A.status = 'AV') AND H.doctor_id = " + doc_id;
+			String query = "SELECT Appointment.appnt_ID, Appointment.status FROM Appointment JOIN has_appointment";
+			query +=       "ON Appointment.appnt_ID = has_appointment.appnt_id AND (Appointment.adate >= '" + start_date + "' AND Appointment.adate <= '" + end_date + "')";
+			query +=  " AND (Appointment.status = 'AC' OR Appointment.status = 'AV') AND has_appointment.doctor_id = " + doc_id;
 			System.out.println(query);
 			int rows = esql.executeQueryAndPrintResult(query);
 			if(rows == 0) {
