@@ -375,7 +375,12 @@ public class DBproject{
 		}
 		System.out.print("New doctor added!");
 		sc.close();
-		System.in.read();
+		try {
+			System.in.read();
+		} catch (Exception e) {
+			System.out.print("error at the pause");
+		}
+		
 		return;
 	}
 
