@@ -755,7 +755,7 @@ public class DBproject{
 			System.out.println("Error in sorting the hashmap");
 			System.out.println(e);
 		}
-		
+		System.out.println("Before final output");
 		System.out.printf("%s-10%s-20%\n", "Doctor ID", "Doctor Name");
 		try {
 			for (int i = 0; i <= num_doc; i++) { // Print all values in our format
