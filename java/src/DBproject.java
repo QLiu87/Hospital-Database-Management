@@ -392,7 +392,6 @@ public class DBproject{
 			}
 		}
 		System.out.print("New doctor added!");
-		//sc.close();
 
 		
 		return;
@@ -410,7 +409,7 @@ public class DBproject{
 		boolean date_check = false;
 		boolean hour_check = false;
 		String appnt_time = "";
-		final String DATE_FORMAT = "dd-MM-yyyy";
+		final String DATE_FORMAT = "MM-dd-yyyy";
 		String appnt_status = "";
 		String query = "";
 
@@ -431,6 +430,7 @@ public class DBproject{
 				try {
 					System.out.print("Input Your Appointment's date in (MM/DD/YYYY) format:");
 					temp_date_input = in.readLine();
+					System.out.print(temp_date_input);
 					SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 					df.setLenient(false);
 					Date date = df.parse(temp_date_input);
@@ -505,10 +505,7 @@ public class DBproject{
 		} catch (Exception e) {
 			System.out.println("Error adding an Appointment!");
 			System.err.println (e.getMessage());
-		} finally {
-			if(sc != null)
-				sc.close();
-		}
+		} 
 
 		
 	}
@@ -587,10 +584,7 @@ public class DBproject{
 			}
 		} catch (Exception e) {
 			System.out.print("Your query is incorrect, Please try again!");
-		} finally{
-			sc.close();
-		}
-		
+		}	
 	}
 
 	public static void ListAvailableAppointmentsOfDepartment(DBproject esql) {//6
