@@ -437,7 +437,7 @@ public class DBproject{
 				try {
 					System.out.print("Input Your Appointment's date in (MM-DD-YYYY) format:");
 					temp_date_input = in.readLine();
-					System.out.print(temp_date_input);
+					//System.out.print(temp_date_input);
 					SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 					df.setLenient(false);
 					Date date = df.parse(temp_date_input);
@@ -470,14 +470,14 @@ public class DBproject{
 					System.out.print("Your input for Appointment's end time is wrong, Please follow the given format:");
 					continue;
 				}
-				int h1 = Integer.parseInt(start_time.substring(0, 1));
-				int m1 = Integer.parseInt(start_time.substring(3, 4));
-				int h2 = Integer.parseInt(end_time.substring(0, 1));
-				int m2 = Integer.parseInt(end_time.substring(3, 4));
+				int h1 = Integer.parseInt(start_time.substring(0, 2));
+				int m1 = Integer.parseInt(start_time.substring(3, 5));
+				int h2 = Integer.parseInt(end_time.substring(0, 2));
+				int m2 = Integer.parseInt(end_time.substring(3, 5));
 				System.out.println("h1 = " + h1);
-				System.out.println("h1 = " + h1);
-				System.out.println("h1 = " + h1);
-				System.out.println("h1 = " + h1);
+				System.out.println("h2 = " + h2);
+				System.out.println("m1 = " + m1);
+				System.out.println("m2 = " + m2);
 				if(h1 >= h2){
 					if(h1 == h2){
 						if(m1 >= m2){
