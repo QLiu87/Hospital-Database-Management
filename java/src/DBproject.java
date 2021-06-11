@@ -375,6 +375,7 @@ public class DBproject{
 		}
 		System.out.print("New doctor added!");
 		sc.close();
+		System.in.read();
 		return;
 	}
 
