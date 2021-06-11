@@ -304,7 +304,7 @@ public class DBproject{
 	}//end readChoice
 	
 	public static int test_add_doc_id(DBproject esql, int id) {
-		String query_exist = "Select * FROM Doctor WHERE Doctor.doctor_ID = ";
+		String query_exist = "Select * FROM Doctor WHERE doctor_ID = ";
 		query_exist += String.valueOf(id);
 		int res_int = id;
 		try {
