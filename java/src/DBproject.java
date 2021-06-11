@@ -693,7 +693,7 @@ public class DBproject{
 		try {
 			for(int i = 0; i < status_list.size(); i++){
 				res = count_status(esql, status_list.get(i));
-				for (int j = 0; j < res.size(); i++) { 
+				for (int j = 0; j < doc_status_list.size(); i++) { 
 					//doc_status_list. get(each doc id)
 					//then set(each doc id)'s status count 
 					int curr_doc_id = Integer.parseInt(res.get(j).get(0));
