@@ -474,10 +474,6 @@ public class DBproject{
 				int m1 = Integer.parseInt(start_time.substring(3, 5));
 				int h2 = Integer.parseInt(end_time.substring(0, 2));
 				int m2 = Integer.parseInt(end_time.substring(3, 5));
-				System.out.println("h1 = " + h1);
-				System.out.println("h2 = " + h2);
-				System.out.println("m1 = " + m1);
-				System.out.println("m2 = " + m2);
 				if(h1 >= h2){
 					if(h1 == h2){
 						if(m1 >= m2){
@@ -491,7 +487,7 @@ public class DBproject{
 					}
 				}
 				appnt_time = start_time + "-" + end_time;
-				System.out.println(appnt_time);
+				//System.out.println(appnt_time);
 				hour_check = true;
 				} catch (Exception e) {
 					System.out.print("\tPlease enter a valid time slot: ");
@@ -503,12 +499,12 @@ public class DBproject{
 					System.out.print("Input Your Appointment's Status, Choose one from (PA, AC, AV, WL):");
 					appnt_status = in.readLine().toUpperCase();
 					System.out.println("Input status is: " + appnt_status);
-					if(appnt_status == "PA" || appnt_status == "AC" || appnt_status == "AV" || appnt_status == "WL"){
+					if(appnt_status.equals("PA") || appnt_status.equals("AC") || appnt_status.equals("AV") || appnt_status.equals("WL")){
 						status_check = true;
 						continue;
 					}
 
-					System.out.print("Your input for Appointment's status is wrong, Please follow the given format:");
+					System.out.println("Your input for Appointment's status is wrong, Please follow the given format:");
 				} catch (Exception e) {
 					System.out.println("Your input is invalid!");
 					continue;
@@ -516,8 +512,9 @@ public class DBproject{
 			} while (appnt_status.length() <= 0 || status_check == false);
 
 			query += appnt_id + ", \'" + adate + "\', \'" + appnt_time + "\', \'" + appnt_status + "\');";
+			System.out.println(query);
 			esql.executeUpdate(query);
-			System.out.print("New appointment added!\n");
+			System.out.println("New appointment added!\n");
 		} catch (Exception e) {
 			System.out.println("Error adding an Appointment!");
 			System.err.println (e.getMessage());
