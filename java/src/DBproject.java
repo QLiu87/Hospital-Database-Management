@@ -382,12 +382,6 @@ public class DBproject{
 		
 		try {
 			query += "VALUES ('" + String.valueOf(doc_id) + "', '" + doc_name + "', '" + specialty + "', '" + String.valueOf(did) + "')";
-			System.out.print(query);
-			try {
-				System.in.read();
-			} catch (Exception e) {
-				System.out.print("error at the pause");
-			}
             esql.executeUpdate(query);
 			String query2 = "select * from Doctor where doctor_ID = " + String.valueOf(doc_id);
 			int rowcount = esql.executeQueryAndPrintResult(query2);
@@ -400,14 +394,8 @@ public class DBproject{
 		} catch (Exception e) {
 			System.out.println("Error adding a doctor!");
 			System.err.println (e.getMessage());
-			try {
-				System.in.read();
-			} catch (Exception ee) {
-				System.out.print("error at the pause");
-			}
 		}
-		System.out.print("New doctor added!");
-
+		System.out.print("New doctor added!\n");
 		
 		return;
 	}
@@ -486,19 +474,24 @@ public class DBproject{
 				int m1 = Integer.parseInt(start_time.substring(3, 4));
 				int h2 = Integer.parseInt(end_time.substring(0, 1));
 				int m2 = Integer.parseInt(end_time.substring(3, 4));
+				System.out.println("h1 = " + h1);
+				System.out.println("h1 = " + h1);
+				System.out.println("h1 = " + h1);
+				System.out.println("h1 = " + h1);
 				if(h1 >= h2){
 					if(h1 == h2){
 						if(m1 >= m2){
-							System.out.print("Your input for Appointment's start time is later than the end time:");
+							System.out.print("In m1 > m2, Your input for Appointment's start time is later than the end time:");
 							continue;
 						}
 					}
 					else{
-						System.out.print("Your input for Appointment's start time is later than the end time:");
+						System.out.print("in h1 == h2, else Your input for Appointment's start time is later than the end time:");
 						continue;
 					}
 				}
 				appnt_time = start_time + "-" + end_time;
+				System.out.println(appnt_time);
 				hour_check = true;
 				} catch (Exception e) {
 					System.out.print("\tPlease enter a valid time slot: ");
