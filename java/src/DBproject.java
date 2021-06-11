@@ -536,7 +536,7 @@ public class DBproject{
 		// Given a patient, a doctor and an appointment of the doctor that s/he wants to take, add an appointment to the DB
 	}
 
-	public static void ListAppointmentsOfDoctor(DBproject esql) {//5
+	public static void ListAppointmentsOfDoctor(DBproject esql) {//
 		// For a doctor ID and a date range, find the list of active and available appointments of the doctor
 		Scanner sc = new Scanner(System.in);
 		final String DATE_FORMAT = "MM-dd-yyyy";
@@ -672,9 +672,10 @@ public class DBproject{
 		status_list.add("WL");
 
 		try { 
-			String num_doc_query = "SELECT COUNT(D.doctor_ID) FROM Doctor D;";
+			String num_doc_query = "SELECT COUNT(doctor_ID) FROM Doctor;";
 			res = esql.executeQueryAndReturnResult(num_doc_query);
 			num_doc = Integer.parseInt(res.get(0).get(0));
+			System.out.println("Number of doctor = " + num_doc);
 		} catch (Exception e) {
 			System.out.println("Error in finding total number of doctors.");
 		}
@@ -689,62 +690,73 @@ public class DBproject{
 			}
 			doc_status_list.add(index);
 		}
-		for(int i = 0; i < status_list.size(); i++){
-			res = count_status(esql, status_list.get(i));
-			for (int j = 0; j < res.size(); i++) { 
-				//doc_status_list. get(each doc id)
-				//then set(each doc id)'s status count 
-				int curr_doc_id = Integer.parseInt(res.get(j).get(0));
-				String curr_doc_name = res.get(j).get(1);
-				String curr_doc_status_count = res.get(j).get(2);
-				doctor_id_to_name.put(res.get(j).get(0), curr_doc_name);
-				doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);
+		try {
+			for(int i = 0; i < status_list.size(); i++){
+				res = count_status(esql, status_list.get(i));
+				for (int j = 0; j < res.size(); i++) { 
+					//doc_status_list. get(each doc id)
+					//then set(each doc id)'s status count 
+					int curr_doc_id = Integer.parseInt(res.get(j).get(0));
+					String curr_doc_name = res.get(j).get(1);
+					String curr_doc_status_count = res.get(j).get(2);
+					doctor_id_to_name.put(res.get(j).get(0), curr_doc_name);
+					doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("Error in getting status count.");
+			System.out.println(e);
 		}
-		//every index of level 0 list contains a list of doctor's status counts, each count is mapped to its name 
-		// List<List<HashMap<String, Integer>>> bag_of_docs = new ArrayList<List<HashMap<String, Integer>>>(); // Initialize container for status values
-		// for (int each_doc = 0; each_doc < res.size(); each_doc++) {
-		// 	ArrayList<HashMap<String, Integer>> doctor_status_count = new ArrayList<HashMap<String, Integer>>();
-		// 	for(int each_status = 0; each_status < 4; each_status++){
-		// 		HashMap<String, Integer> map=new HashMap<String, Integer>();
-		// 		//     map(status, its_count)
-		// 		map.put(status_list.get(each_status), Integer.parseInt(doc_status_list.get(each_doc).get(each_status)));
-		// 		doctor_status_count.add(map);
-		// 	}
-		// 	bag_of_docs.add(doctor_status_count);
-		// }
+
 		ArrayList<HashMap<String, Integer>> bag_of_docs = new ArrayList<HashMap<String, Integer>>();
-		for (int each_doc = 0; each_doc < res.size(); each_doc++) {
-			HashMap<String, Integer> map=new HashMap<String, Integer>();
-			for(int each_status = 0; each_status < 4; each_status++){
-				//     map(status, its_count)
-				map.put(status_list.get(each_status), Integer.parseInt(doc_status_list.get(each_doc).get(each_status)));
+		try {
+			
+			for (int each_doc = 0; each_doc < res.size(); each_doc++) {
+				HashMap<String, Integer> map=new HashMap<String, Integer>();
+				for(int each_status = 0; each_status < 4; each_status++){
+					//     map(status, its_count)
+					map.put(status_list.get(each_status), Integer.parseInt(doc_status_list.get(each_doc).get(each_status)));
+				}
+				bag_of_docs.add(map);
 			}
-			bag_of_docs.add(map);
+		} catch (Exception e) {
+			System.out.println("Error in putting hashmap in list");
+			System.out.println(e);
 		}
 
 		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
-		for (HashMap<String,Integer> stats : bag_of_docs) {
-			LinkedHashMap<String, Integer> sorted_status = new LinkedHashMap<String, Integer>();
-			sorted_status = sortHashMapByValues(stats);
-			doctor.add(sorted_status);
-		}
-
-		System.out.printf("%s-10%s-20%\n", "Doctor ID", "Doctor Name");
-		for (int i = 0; i <= num_doc; i++) { // Print all values in our format
-			System.out.printf("%s-10%s-20", i, doctor_id_to_name.get(String.valueOf(i)));
-			for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
-  
-				String key = mapElement.getKey();
-	  
-				// Finding the value
-				int value = mapElement.getValue();
-	  
-				// print the key : value pair
-				System.out.printf("%s:-1%s-5",key, value);
+		try {
+			
+			for (HashMap<String,Integer> stats : bag_of_docs) {
+				LinkedHashMap<String, Integer> sorted_status = new LinkedHashMap<String, Integer>();
+				sorted_status = sortHashMapByValues(stats);
+				doctor.add(sorted_status);
 			}
+		} catch (Exception e) {
+			System.out.println("Error in sorting the hashmap");
+			System.out.println(e);
 		}
-
+		
+		System.out.printf("%s-10%s-20%\n", "Doctor ID", "Doctor Name");
+		try {
+			for (int i = 0; i <= num_doc; i++) { // Print all values in our format
+				System.out.printf("%s-10%s-20", i, doctor_id_to_name.get(String.valueOf(i)));
+				for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
+	  
+					String key = mapElement.getKey();
+		  
+					// Finding the value
+					int value = mapElement.getValue();
+		  
+					// print the key : value pair
+					System.out.printf("%s:-1%s-5",key, value);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in final output");
+			System.out.println(e);
+		}
+		
 	}
 
 	
