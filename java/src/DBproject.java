@@ -633,29 +633,32 @@ public class DBproject{
 
 	//reference: https://stackoverflow.com/questions/8119366/sorting-hashmap-by-values by Sandeep Pathak
 	public static LinkedHashMap<String, Integer> sortHashMapByValues(HashMap<String, Integer> passedMap) {
-		List<String> mapKeys = new ArrayList<>(passedMap.keySet());
-		List<Integer> mapValues = new ArrayList<>(passedMap.values());
-		Collections.sort(mapValues);
-		Collections.sort(mapKeys);
-
 		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-
-		Iterator<Integer> valueIt = mapValues.iterator();
-		while (valueIt.hasNext()) {
-			int val = valueIt.next();
-			Iterator<String> keyIt = mapKeys.iterator();
-		
-			while (keyIt.hasNext()) {
-				String key = keyIt.next();
-				int comp1 = passedMap.get(key);
-				int comp2 = val;
+		try {
+			List<String> mapKeys = new ArrayList<>(passedMap.keySet());
+			List<Integer> mapValues = new ArrayList<>(passedMap.values());
+			Collections.sort(mapValues);
+			Collections.sort(mapKeys);
+			Iterator<Integer> valueIt = mapValues.iterator();
+			while (valueIt.hasNext()) {
+				int val = valueIt.next();
+				Iterator<String> keyIt = mapKeys.iterator();
 			
-				if (comp1 == comp2) {
-					mapKeys.remove(key);
-					sortedMap.put(key, val);
-					break;
+				while (keyIt.hasNext()) {
+					String key = keyIt.next();
+					int comp1 = passedMap.get(key);
+					int comp2 = val;
+				
+					if (comp1 == comp2) {
+						mapKeys.remove(key);
+						sortedMap.put(key, val);
+						break;
+					}
 				}
 			}
+		} catch (Exception e) {
+			System.out.println("Error in gsorting function.");
+			System.out.println(e);
 		}
     	return sortedMap;
 	}
@@ -699,22 +702,17 @@ public class DBproject{
 					//doc_status_list. get(each doc id)
 					//then set(each doc id)'s status count 
 					int curr_doc_id = Integer.parseInt(res.get(j).get(0));
-					System.out.println("After 701");
 					String curr_doc_name = res.get(j).get(1);
-					System.out.println("After 703");
 					String curr_doc_status_count = res.get(j).get(2);
-					System.out.println("After 705");
 					doctor_id_to_name.put(res.get(j).get(0), curr_doc_name);
-					System.out.println("After 706");
-					doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);
-					System.out.println("After 708");
+					doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);	
 				}
 			}
 		} catch (Exception e) {
 			System.out.println("Error in getting status count.");
 			System.out.println(e);
 		}
-
+		System.out.println("Starting bag of doctors");
 		ArrayList<HashMap<String, Integer>> bag_of_docs = new ArrayList<HashMap<String, Integer>>();
 		try {
 			
@@ -730,7 +728,7 @@ public class DBproject{
 			System.out.println("Error in putting hashmap in list");
 			System.out.println(e);
 		}
-
+		System.out.println("Starting sorting");
 		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
 		try {
 			
