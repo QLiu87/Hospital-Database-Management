@@ -419,8 +419,6 @@ public class DBproject{
 		
 		try{
 			//get aid
-			String test_query = "SELECT * FROM Appointment WHERE appnt_id = 3";
-			int rows = esql.executeQueryAndPrintResult(test_query);
 			query += "INSERT INTO Appointment VALUES (";
 			do {
 				System.out.print("Input Your Appointment's ID:");
@@ -595,7 +593,8 @@ public class DBproject{
 
 			String query = "SELECT A.appnt_ID, A.status FROM Appointment A, has_appointment H";
 			query +=       "WHERE (A.status = 'AC' OR A.status = 'AV') AND H.doctor_id = " + doc_id;
-			query +=  "AND A.appnt_ID = H.appnt_id AND (A.adate BETWEEN \'" + start_date + "\' AND \'" + end_date + "\');";
+			query +=  "AND A.appnt_ID = H.appnt_id AND (A.adate BETWEEN '" + start_date + "' AND '" + end_date + "')";
+			System.out.println(query);
 			int rows = esql.executeQueryAndPrintResult(query);
 			if(rows == 0) {
 				System.out.print("No active or available appointments for this doctor. Please double check your doctor id\n");
