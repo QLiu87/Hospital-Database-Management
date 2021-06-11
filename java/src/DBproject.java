@@ -91,7 +91,7 @@ public class DBproject{
 		//issues the query instruction
 		
 		ResultSet rs = stmt.executeQuery (query);
-		System.out.print("After executing the qeuery");
+		//System.out.print("After executing the qeuery");
 		/*
 		 *  obtains the metadata object for the returned result set.  The metadata
 		 *  contains row and column info.
@@ -99,7 +99,7 @@ public class DBproject{
 		ResultSetMetaData rsmd = rs.getMetaData ();
 		int numCol = rsmd.getColumnCount ();
 		int rowCount = 0;
-		System.out.print("Before printing");
+		//System.out.print("Before printing");
 		//iterates through the result set and output them to standard out.
 		boolean outputHeader = true;
 		while (rs.next()){
@@ -593,9 +593,9 @@ public class DBproject{
 			} while (date_check2 == false || end_date.length() <= 0);
 
 			String query = "SELECT appnt_ID FROM Appointment JOIN has_appointment ";
-			query +=       "ON Appointment.appnt_ID = has_appointment.appnt_id WHERE (Appointment.adate >= '" + start_date + "' AND Appointment.adate <= '" + end_date + "')";
+			query +=       "ON Appointment.appnt_ID = has_appointment.appt_id WHERE (Appointment.adate >= '" + start_date + "' AND Appointment.adate <= '" + end_date + "')";
 			query +=  " AND (Appointment.status = 'AC' OR Appointment.status = 'AV') AND has_appointment.doctor_id = " + doc_id;
-			System.out.println(query);
+			//System.out.println(query);
 			int rows = esql.executeQueryAndPrintResult(query);
 			if(rows == 0) {
 				System.out.print("No active or available appointments for this doctor. Please double check your doctor id\n");
