@@ -707,7 +707,6 @@ public class DBproject{
 					//doc_status_list. get(each doc id)
 					//then set(each doc id)'s status count 
 					int curr_doc_id = Integer.parseInt(res.get(j).get(0));
-					String curr_doc_name = res.get(j).get(1);
 					String curr_doc_status_count = res.get(j).get(2);
 					doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);	
 				}
@@ -763,7 +762,7 @@ public class DBproject{
 		System.out.printf("%10s%20s\n", "Doctor ID", "Doctor Name");
 		try {
 			for (int i = 0; i < num_doc; i++) { // Print all values in our format
-				System.out.printf("%10s%20s%5", i, doctor_id_to_name.get(String.valueOf(i)));
+				System.out.printf("%10s%20s%     ", i, doctor_id_to_name.get(String.valueOf(i)));
 				for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
 					String key = mapElement.getKey();
 					int value = mapElement.getValue();
