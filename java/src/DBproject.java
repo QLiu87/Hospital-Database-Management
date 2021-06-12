@@ -632,8 +632,8 @@ public class DBproject{
 		try {
 			List<String> mapKeys = new ArrayList<>(passedMap.keySet());
 			List<Integer> mapValues = new ArrayList<>(passedMap.values());
-			Collections.sort(mapValues);
-			Collections.sort(mapKeys);
+			Collections.sort(mapValues, Collections.reverseOrder());
+			Collections.sort(mapKeys, Collections.reverseOrder());
 			Iterator<Integer> valueIt = mapValues.iterator();
 			while (valueIt.hasNext()) {
 				int val = valueIt.next();
