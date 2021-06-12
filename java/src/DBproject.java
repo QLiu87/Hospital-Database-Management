@@ -681,7 +681,7 @@ public class DBproject{
 			String name_query = "SELECT doctor_ID, name FROM Doctor;";
 			res = esql.executeQueryAndReturnResult(name_query);
 			for(int i = 0; i < res.size();i++){
-				doctor_id_to_name.put(res.get(i).get(0), res.get(i).get(0));
+				doctor_id_to_name.put(res.get(i).get(0), res.get(i).get(1));
 			}
 			System.out.println("Number of doctor = " + num_doc);
 		} catch (Exception e) {
