@@ -323,6 +323,19 @@ public class DBproject{
 		return res_int;
 	}
 
+	public static boolean test_dept_id(DBproject esql, int id) {
+		String query_exist = "Select * FROM Department WHERE dept_ID = ";
+		query_exist += String.valueOf(id);
+		try {
+			List<List<String>> res = esql.executeQueryAndReturnResult(query_exist);
+			if(res.size() > 0)
+				return true;
+		} catch(Exception e) {
+			System.out.print(e);
+		}
+		return false;
+	}
+
 	public static int test_add_appnt_id(DBproject esql, int id) {
 		String query_exist = "Select * FROM Appointment WHERE appnt_ID = ";
 		query_exist += String.valueOf(id);
@@ -344,6 +357,7 @@ public class DBproject{
 		int doc_id;
 		String doc_name = "";
 		String specialty = "";
+		boolean dept_check = false;
 		int did;
 		String query = "INSERT INTO Doctor (doctor_ID, name, specialty, did) ";
 		do {
@@ -384,7 +398,12 @@ public class DBproject{
 				sc.next();
 			}
 			did = sc.nextInt();
-		} while (did <= 0);
+			if(test_dept_id(esql, did) == false){
+				System.out.println("This department id does not exist, Please try again!");
+				continue;
+			}
+			dept_check = true;
+		} while (did <= 0 || dept_check == false);
 		
 		try {
 			query += "VALUES (" + String.valueOf(doc_id) + ", '" + doc_name + "', '" + specialty + "', " + String.valueOf(did) + ")";
@@ -501,7 +520,7 @@ public class DBproject{
 				try {
 					System.out.print("Input Your Appointment's Status, Choose one from (PA, AC, AV, WL):");
 					appnt_status = in.readLine().toUpperCase();
-					System.out.println("Input status is: " + appnt_status);
+					//System.out.println("Input status is: " + appnt_status);
 					if(appnt_status.equals("PA") || appnt_status.equals("AC") || appnt_status.equals("AV") || appnt_status.equals("WL")){
 						status_check = true;
 						continue;
@@ -678,7 +697,7 @@ public class DBproject{
 			for(int i = 0; i < res.size();i++){
 				doctor_id_to_name.put(res.get(i).get(0), res.get(i).get(1));
 			}
-			System.out.println("Number of doctor = " + num_doc);
+			//System.out.println("Number of doctor = " + num_doc);
 		} catch (Exception e) {
 			System.out.println("Error in finding total number of doctors.");
 		}
@@ -696,8 +715,6 @@ public class DBproject{
 		try {
 			for(int i = 0; i < status_list.size(); i++){
 				res = count_status(esql, status_list.get(i));
-				//System.out.println("size of res =: " + res.size());
-				//System.out.println("After count_status function for " + status_list.get(i));
 				for (int j = 0; j < res.size(); j++) { 
 					//doc_status_list. get(each doc id)
 					//then set(each doc id)'s status count 
@@ -711,7 +728,7 @@ public class DBproject{
 			System.out.println(e);
 		}
 
-		System.out.println("Starting bag of doctors");
+		//System.out.println("Starting bag of doctors");
 		ArrayList<HashMap<String, Integer>> bag_of_docs = new ArrayList<HashMap<String, Integer>>();
 		try {
 			for (int each_doc = 0; each_doc < doc_status_list.size(); each_doc++) {
@@ -726,34 +743,19 @@ public class DBproject{
 			System.out.println("Error in putting hashmap in list");
 			System.out.println(e);
 		}
-		System.out.println("Starting sorting");
-
-		System.out.println("bag_of_docs.size() = " + bag_of_docs.size());
-		
-		for(int i = 0; i < 10; i++){
-			System.out.println("bag_of_docs[" + i + "] = " + doctor_id_to_name.get(String.valueOf(i)));
-			bag_of_docs.get(i).entrySet().forEach(entry -> {
-				System.out.println(entry.getKey() + " " + entry.getValue());
-			});
-		}
 		
 		List<LinkedHashMap<String, Integer>> doctor = new ArrayList<LinkedHashMap<String, Integer>>();
-		try {
-			int counter = 0;
-			
+		try {			
 			for (HashMap<String,Integer> stats : bag_of_docs) {
 				LinkedHashMap<String, Integer> sorted_status = new LinkedHashMap<String, Integer>();
-				System.out.println("Before sorting function with counter = " + counter);
-				counter++;
 				sorted_status = sortHashMapByValues(stats);
 				doctor.add(sorted_status);
-				System.out.println("After");
 			}
 		} catch (Exception e) {
 			System.out.println("Error in sorting the hashmap");
 			System.out.println(e);
 		}
-		System.out.println("Before final output");
+
 		System.out.printf("%10s%20s\n", "Doctor ID", "Doctor Name");
 		try {
 			for (int i = 0; i < num_doc; i++) { // Print all values in our format
@@ -772,7 +774,6 @@ public class DBproject{
 		
 	}
 
-	
 	public static void FindPatientsCountWithStatus(DBproject esql) {//8
 		// Find how many patients per doctor there are with a given status (i.e. PA, AC, AV, WL) and list that number per doctor.
 	}
