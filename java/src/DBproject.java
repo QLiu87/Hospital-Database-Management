@@ -391,12 +391,7 @@ public class DBproject{
             esql.executeUpdate(query);
 			String query2 = "select * from Doctor where doctor_ID = " + String.valueOf(doc_id);
 			int rowcount = esql.executeQueryAndPrintResult(query2);
-			System.out.println(rowcount);
-			try {
-				System.in.read();
-			} catch (Exception e) {
-				System.out.print("error at the pause");
-			}
+			//System.out.println(rowcount);
 		} catch (Exception e) {
 			System.out.println("Error adding a doctor!");
 			System.err.println (e.getMessage());
