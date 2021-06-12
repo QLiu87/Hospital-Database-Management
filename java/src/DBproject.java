@@ -763,8 +763,9 @@ public class DBproject{
 				for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
 					String key = mapElement.getKey();
 					int value = mapElement.getValue();
-					System.out.printf("%1s:%5s ",key, value);
+					System.out.printf("%1s:%2s ",key, value);
 				}
+				System.out.print("\n");
 			}
 		} catch (Exception e) {
 			System.out.println("Error in final output");
