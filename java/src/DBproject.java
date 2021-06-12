@@ -678,6 +678,11 @@ public class DBproject{
 			String num_doc_query = "SELECT COUNT(doctor_ID) FROM Doctor;";
 			res = esql.executeQueryAndReturnResult(num_doc_query);
 			num_doc = Integer.parseInt(res.get(0).get(0));
+			String name_query = "SELECT doctor_ID, name FROM Doctor;";
+			res = esql.executeQueryAndReturnResult(name_query);
+			for(int i = 0; i < res.size();i++){
+				doctor_id_to_name.put(res.get(i).get(0), res.get(i).get(0));
+			}
 			System.out.println("Number of doctor = " + num_doc);
 		} catch (Exception e) {
 			System.out.println("Error in finding total number of doctors.");
@@ -704,7 +709,6 @@ public class DBproject{
 					int curr_doc_id = Integer.parseInt(res.get(j).get(0));
 					String curr_doc_name = res.get(j).get(1);
 					String curr_doc_status_count = res.get(j).get(2);
-					doctor_id_to_name.put(res.get(j).get(0), curr_doc_name);
 					doc_status_list.get(curr_doc_id).set(i, curr_doc_status_count);	
 				}
 			}
@@ -759,11 +763,11 @@ public class DBproject{
 		System.out.printf("%10s%20s\n", "Doctor ID", "Doctor Name");
 		try {
 			for (int i = 0; i < num_doc; i++) { // Print all values in our format
-				System.out.printf("%10s%20s", i, doctor_id_to_name.get(String.valueOf(i)));
+				System.out.printf("%10s%20s%5", i, doctor_id_to_name.get(String.valueOf(i)));
 				for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
 					String key = mapElement.getKey();
 					int value = mapElement.getValue();
-					System.out.printf("%1s:%2s ",key, value);
+					System.out.printf("%2s:%1s ",key, value);
 				}
 				System.out.print("\n");
 			}
