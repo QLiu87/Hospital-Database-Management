@@ -756,14 +756,14 @@ public class DBproject{
 			System.out.println(e);
 		}
 		System.out.println("Before final output");
-		System.out.printf("%s10%s20\n", "Doctor ID", "Doctor Name");
+		System.out.printf("%10s%20s\n", "Doctor ID", "Doctor Name");
 		try {
 			for (int i = 0; i < num_doc; i++) { // Print all values in our format
 				System.out.printf("%s10%s20", i, doctor_id_to_name.get(String.valueOf(i)));
 				for (Map.Entry<String, Integer> mapElement : doctor.get(i).entrySet()) {
 					String key = mapElement.getKey();
 					int value = mapElement.getValue();
-					System.out.printf("%s:1%s5\n",key, value);
+					System.out.printf("%1s:%5s\n",key, value);
 				}
 			}
 		} catch (Exception e) {
