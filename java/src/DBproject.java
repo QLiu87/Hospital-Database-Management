@@ -33,7 +33,12 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
-
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 /*
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -421,6 +426,107 @@ public class DBproject{
 	}
 
 	public static void AddPatient(DBproject esql) {//2
+
+        int patient_ID;
+
+        do {
+            System.out.print("Input Patient ID Number: ");
+            try {
+                patient_ID = Integer.parseInt(in.readLine());
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        String name;
+
+        do {
+            System.out.print("Input Patient Name: ");
+            try {
+                name = in.readLine();
+                if(name.length() <= 0 || name.length() > 128) {
+                    throw new RuntimeException("Patient Name cannot be null or exceed 128 characters");
+                }
+                break;
+            }catch (Exception e) {
+                System.out.println(e);
+                continue;
+            }
+        }while (true);
+
+        String gtype;
+
+        do {
+            System.out.print("Input Patient Gender: ");
+            try {
+                gtype = in.readLine();
+                if(gtype.length() <= 0 || gtype.length() >= 2) {
+                    throw new RuntimeException("Patient Gender cannot be null or exceed 2 characters");
+                }
+                break;
+            }catch (Exception e) {
+                System.out.println(e);
+                continue;
+            }
+        }while (true);
+
+        int age;
+
+        do {
+            System.out.print("Input Patient Age: ");
+            try {
+                age = Integer.parseInt(in.readLine());
+                if(age < 0) {
+                    throw new RuntimeException("Patient Age cannot be negative");
+                }
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        String address;
+
+        do {
+            System.out.print("Input Patient Address: ");
+            try {
+                address = in.readLine();
+                if(address.length() <= 0 || address.length() > 256) {
+                    throw new RuntimeException("Patient Address cannot be null or exceed 256 characters");
+                }
+                break;
+            }catch (Exception e) {
+                System.out.println(e);
+                continue;
+            }
+        }while (true);
+
+        int number_of_appts;
+
+        do {
+            System.out.print("Input Number of Appointments: ");
+            try {
+                number_of_appts = Integer.parseInt(in.readLine());
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        try {
+            String query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + patient_ID + ", \'" + name + "\', \'" + gtype + "\', " + age + ", \'" + address + "\', " + number_of_appts + ");";
+
+            esql.executeUpdate(query);
+
+            System.out.print("New patient added!\n");
+
+        }catch (Exception e) {
+            System.err.println (e.getMessage());
+        }
 	}
 
 	public static void AddAppointment(DBproject esql) {//3
@@ -547,6 +653,322 @@ public class DBproject{
 
 
 	public static void MakeAppointment(DBproject esql) {//4
+        int pid;
+
+        do {
+            System.out.print("Input Patient ID: ");
+            try {
+                pid = Integer.parseInt(in.readLine());
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        int aid;
+
+        do {
+            System.out.print("Input Appointment ID: ");
+            try {
+                aid = Integer.parseInt(in.readLine());
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        int did;
+
+        do {
+            System.out.print("Input Doctor ID: ");
+            try {
+                did = Integer.parseInt(in.readLine());
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        try {
+            String query = "SELECT A.status\nFROM Appointment A, has_appointment H, searches S\nWHERE A.appnt_ID = H.appt_id AND S.aid = A.appnt_ID AND S.aid = H.appt_id AND S.pid = " + pid + " AND doctor_id = " + did + " AND A.appnt_ID = " + aid + ";";
+
+            List<List<String>> res = new ArrayList<>();
+            res = esql.executeQueryAndReturnResult(query);
+
+            if(res.get(0).get(0).equals("AC")){
+                //do {
+
+
+                int patient_ID;
+
+                do {
+                    System.out.print("Input Patient ID Number: ");
+                    try {
+                        patient_ID = Integer.parseInt(in.readLine());
+                        break;
+                    }catch (Exception e) {
+                        System.out.println("Your input is invalid!");
+                        continue;
+                    }
+                }while (true);
+
+                String name;
+
+                do {
+                    System.out.print("Input Patient Name: ");
+                    try {
+                        name = in.readLine();
+                        if(name.length() <= 0 || name.length() > 128) {
+                            throw new RuntimeException("Patient Name cannot be null or exceed 128 characters");
+                        }
+                        break;
+                    }catch (Exception e) {
+                        System.out.println(e);
+                        continue;
+                    }
+                }while (true);
+
+                String gtype;
+
+                do {
+                    System.out.print("Input Patient Gender: ");
+                    try {
+                        gtype = in.readLine();
+                        if(gtype.length() <= 0 || gtype.length() >= 2) {
+                            throw new RuntimeException("Patient Gender cannot be null or exceed 2 characters");
+                        }
+                        break;
+                    }catch (Exception e) {
+                        System.out.println(e);
+                        continue;
+                    }
+                }while (true);
+
+                int age;
+
+                do {
+                    System.out.print("Input Patient Age: ");
+                    try {
+                        age = Integer.parseInt(in.readLine());
+                        if(age < 0) {
+                            throw new RuntimeException("Patient Age cannot be negative");
+                        }
+                        break;
+                    }catch (NumberFormatException e) {
+                        System.out.println("Your input is invalid!");
+                        continue;
+                    }catch (Exception e) {
+                        System.out.println(e);
+                        continue;
+                    }
+                }while (true);
+
+                String address;
+
+                do {
+                    System.out.print("Input Patient Address: ");
+                    try {
+                        address = in.readLine();
+                        if(address.length() <= 0 || address.length() > 256) {
+                            throw new RuntimeException("Patient Address cannot be null or exceed 256 characters");
+                        }
+                        break;
+                    }catch (Exception e) {
+                        System.out.println(e);
+                        continue;
+                    }
+                }while (true);
+
+                int number_of_appts;
+
+                do {
+                    System.out.print("Input Number of Appointments: ");
+                    try {
+                        number_of_appts = Integer.parseInt(in.readLine());
+                        break;
+                    }catch (Exception e) {
+                        System.out.println("Your input is invalid!");
+                        continue;
+                    }
+                }while (true);
+
+                try {
+                    query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + patient_ID + ", \'" + name + "\', \'" + gtype + "\', " + age + ", \'" + address + "\', " + number_of_appts + ");";
+
+                    esql.executeUpdate(query);
+                }catch (Exception e) {
+                    System.err.println (e.getMessage());
+                }
+
+                //}while(true);
+
+                do {
+                    System.out.print("Update Appointment Status to WaitListed: ");
+
+                    String status;
+                    try {
+                        status = in.readLine();
+                        if(!status.equals("PA") && !status.equals("AC") && !status.equals("AV") && !status.equals("WL")) {
+                            throw new RuntimeException("Input only accepts the following inputs: PA, AC, AV, WL");
+                        }
+                        break;
+                    }catch (Exception e) {
+                        System.out.println(e);
+                        continue;
+                    }
+                } while (true);
+                try {
+                    query = "UPDATE Appointment SET status = 'WL' WHERE appnt_ID = " + aid + ";";
+
+
+                    esql.executeUpdate(query);
+                }catch (Exception e) {
+                    System.err.println (e.getMessage());
+                }
+
+            }else if (res.get(0).get(0).equals("AV")){
+                do{
+                    System.out.print("Input Update Appointment Status to Active: ");
+
+                    String status;
+                    try {
+                        status = in.readLine();
+                        if(!status.equals("PA") && !status.equals("AC") && !status.equals("AV") && !status.equals("WL")) {
+                            throw new RuntimeException("Input only accepts the following inputs: PA, AC, AV, WL");
+                        }
+                        break;
+                    }catch (Exception e) {
+                        System.out.println(e);
+                        continue;
+                    }
+                }while (true);
+                try {
+                    query = "UPDATE Appointment SET status = 'AC' WHERE appnt_ID = " + aid + ";";
+
+
+                    esql.executeUpdate(query);
+                }catch (Exception e) {
+                    System.err.println (e.getMessage());
+
+                }
+
+            } else if(res.get(0).get(0).equals("WL")){
+                do{
+                    int patient_ID;
+
+                    do {
+                        System.out.print("Input Patient ID Number: ");
+                        try {
+                            patient_ID = Integer.parseInt(in.readLine());
+                            break;
+                        }catch (Exception e) {
+                            System.out.println("Your input is invalid!");
+                            continue;
+                        }
+                    }while (true);
+
+                    String name;
+
+                    do {
+                        System.out.print("Input Patient Name: ");
+                        try {
+                            name = in.readLine();
+                            if(name.length() <= 0 || name.length() > 128) {
+                                throw new RuntimeException("Patient Name cannot be null or exceed 128 characters");
+                            }
+                            break;
+                        }catch (Exception e) {
+                            System.out.println(e);
+                            continue;
+                        }
+                    }while (true);
+
+                    String gtype;
+
+                    do {
+                        System.out.print("Input Patient Gender: ");
+                        try {
+                            gtype = in.readLine();
+                            if(gtype.length() <= 0 || gtype.length() >= 2) {
+                                throw new RuntimeException("Patient Gender cannot be null or exceed 2 characters");
+                            }
+                            break;
+                        }catch (Exception e) {
+                            System.out.println(e);
+                            continue;
+                        }
+                    }while (true);
+
+                    int age;
+
+                    do {
+                        System.out.print("Input Patient Age: ");
+                        try {
+                            age = Integer.parseInt(in.readLine());
+                            if(age < 0) {
+                                throw new RuntimeException("Patient Age cannot be negative");
+                            }
+                            break;
+                        }catch (NumberFormatException e) {
+                            System.out.println("Your input is invalid!");
+                            continue;
+                        }catch (Exception e) {
+                            System.out.println(e);
+                            continue;
+                        }
+                    }while (true);
+
+                    String address;
+
+                    do {
+                        System.out.print("Input Patient Address: ");
+                        try {
+                            address = in.readLine();
+                            if(address.length() <= 0 || address.length() > 256) {
+                                throw new RuntimeException("Patient Address cannot be null or exceed 256 characters");
+                            }
+                            break;
+                        }catch (Exception e) {
+                            System.out.println(e);
+                            continue;
+                        }
+                    }while (true);
+
+                    int number_of_appts;
+
+                    do {
+                        System.out.print("Input Number of Appointments: ");
+                        try {
+                            number_of_appts = Integer.parseInt(in.readLine());
+                            break;
+                        }catch (Exception e) {
+                            System.out.println("Your input is invalid!");
+                            continue;
+                        }
+                    }while (true);
+
+                    try {
+                        query = "INSERT INTO Patient (patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + patient_ID + ", \'" + name + "\', \'" + gtype + "\', " + age + ", \'" + address + "\', " + number_of_appts + ");";
+
+                        esql.executeUpdate(query);
+                    }catch (Exception e) {
+                        System.err.println (e.getMessage());
+                    }
+
+                }while(true);
+
+            }else{
+
+                System.out.println("No need to do anything");
+
+            }
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 		// Given a patient, a doctor and an appointment of the doctor that s/he wants to take, add an appointment to the DB
 	}
 
@@ -630,7 +1052,47 @@ public class DBproject{
 	}
 
 	public static void ListAvailableAppointmentsOfDepartment(DBproject esql) {//6
-		// For a department name and a specific date, find the list of available appointments of the department
+        String name;
+
+        do {
+            System.out.print("Input Department Name : ");
+            try {
+                name = in.readLine();
+                if(name.length() <= 0 || name.length() > 32) {
+                    throw new RuntimeException("Department Name cannot be null or exceed 32 characters");
+                }
+                break;
+            }catch (Exception e) {
+                System.out.println(e);
+                continue;
+            }
+        }while (true);
+
+        Date adate;
+
+        do {
+            System.out.print("Input Appointment Date (mm/dd/yyyy): ");
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
+                adate = dateFormat.parse(in.readLine());
+                break;
+            }catch (Exception e) {
+                System.out.println("Your input is invalid!");
+                continue;
+            }
+        }while (true);
+
+        try {
+            String query = "SELECT A.appnt_ID AS available_appointments, A.time_slot\nFROM Appointment A, Department De, searches S\nWHERE S.hid = De.hid AND A.appnt_ID = S.aid AND A.status = 'AV' AND De.name = \'" + name + "\' AND A.adate = \'" + adate + "\'\nGROUP BY \"available_appointments\";";
+
+
+            esql.executeQueryAndPrintResult(query);
+        }catch (Exception e) {
+            System.err.println (e.getMessage());
+        }
+
+
+        // For a department name and a specific date, find the list of available appointments of the department
 	}
 
 	public static List<List<String>> count_status(DBproject esql, String status){
@@ -775,6 +1237,31 @@ public class DBproject{
 	}
 
 	public static void FindPatientsCountWithStatus(DBproject esql) {//8
+        String status;
+
+        do {
+            System.out.print("Input Appointment Status: ");
+            try {
+                status = in.readLine();
+                if(!status.equals("PA") && !status.equals("AC") && !status.equals("AV") && !status.equals("WL")) {
+                    throw new RuntimeException("Input only accepts the following inputs: PA, AC, AV, WL");
+                }
+                break;
+            }catch (Exception e) {
+                System.out.println(e);
+                continue;
+            }
+        }while (true);
+
+        try {
+            String query = "SELECT COUNT(DISTINCT P.patient_ID) AS num_of_patient\nFROM Appointment A, has_appointment H, Doctor D, searches S, Patient P\nWHERE A.appnt_ID = H.appt_id AND H.doctor_id = D.doctor_ID AND S.aid = A.appnt_ID AND S.pid = P.patient_ID AND A.status = \'" + status + "\';";
+
+            esql.executeQueryAndPrintResult(query);
+        }catch (Exception e) {
+            System.err.println (e.getMessage());
+        }
+        // Find how many patients per doctor there are with a given status (i.e. PA, AC, AV, WL) and list that number per doctor.
+    }
 		// Find how many patients per doctor there are with a given status (i.e. PA, AC, AV, WL) and list that number per doctor.
-	}
+
 }
